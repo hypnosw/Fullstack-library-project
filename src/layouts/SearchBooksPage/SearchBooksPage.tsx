@@ -123,9 +123,9 @@ export const SearchBooksPage = ()=>{
                             <input className="form-control me-2" type="serach"
                             placeholder="Search" aria-labelledby='Search'
                             onChange = {e=>setSearch(e.target.value)}
-                            onClick={()=>searchHandleChange()}/>
+                            />
 
-                            <button className="btn btn-outline-success">
+                            <button className="btn btn-outline-success" onClick={()=>searchHandleChange()}>
                                 Search
                             </button>
                         </div>
