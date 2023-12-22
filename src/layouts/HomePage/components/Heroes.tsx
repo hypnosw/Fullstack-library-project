@@ -1,4 +1,11 @@
+
+import {useOktaAuth} from "@okta/okta-react";
+import {Link} from "react-router-dom";
+
 export const Heroes = ()=>{
+
+    const {authState} = useOktaAuth();
+
     return(
         <div>
             <div className='d-none d-lg-block'>
@@ -14,7 +21,14 @@ export const Heroes = ()=>{
                                 Whether it is to Learn a new skill or grow within one.
                                 We will be able to provide the top content for you!
                             </p>
-                            <a className='btn main-color btn-lg text-white' href='#'>Sign Up</a>
+                            {authState?.isAuthenticated ?
+                            <Link type={'button'} className={"btn main-color btn-lg text-white"}
+                                  to={'/search'}>Explore Top Books</Link>
+                            :
+                                <Link className='btn main-color btn-lg text-white' to='/login'>
+                                    Sign Up</Link>
+
+                            }
                         </div>
                     </div>
                 </div>
@@ -52,8 +66,14 @@ export const Heroes = ()=>{
                                 Whether it is to Learn a new skill or grow within one.
                                 We will be able to provide the top content for you!
                             </p>
-                            <a className='btn main-color btn-lg text-white' href='#'>Sign Up</a>
-                        </div>
+                            {authState?.isAuthenticated ?
+                                <Link type={'button'} className={"btn main-color btn-lg text-white"}
+                                      to={'/search'}>Explore Top Books</Link>
+                                :
+                                <Link className='btn main-color btn-lg text-white' to='/login'>
+                                    Sign Up</Link>
+
+                            }                        </div>
                     </div>
                     <div className='m-2'>
                         <div className='col-image-right'></div>
