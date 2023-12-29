@@ -5,6 +5,7 @@ import {SpinnerLoading} from "../Utils/SpinnerLoading";
 export const Navbar = () => {
 
   const { oktaAuth, authState} = useOktaAuth();
+  console.log(authState);
 
   if(!authState){
     return <SpinnerLoading/>
