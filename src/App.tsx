@@ -8,13 +8,16 @@ import {Navigate, Route, Routes, useNavigate} from "react-router";
 import {BookCheckOutPage} from "./layouts/BookCheckOutPage/BookCheckOutPage";
 import {oktaConfig} from "./lib/oktaConfig";
 import {OktaAuth, toRelativeUrl} from "@okta/okta-auth-js";
-import {LoginCallback, Security} from "@okta/okta-react";
+import {LoginCallback, SecureRoute, Security, useOktaAuth} from "@okta/okta-react";
 import LoginWidget from "./Auth/LoginWidget";
+import {ReviewListPage} from "./layouts/BookCheckOutPage/ReviewListPage/ReviewListPage";
+import {ShelfPage} from "./layouts/ShelfPage/ShelfPage";
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
 export const App = ()=> {
     const navigate = useNavigate();
+
 
     const customAuthHandler = ()=>{
         navigate('/login');
@@ -34,11 +37,17 @@ export const App = ()=> {
                 <Routes>
                     <Route path='/' element={<Navigate to={'/home'}/>}></Route>
                     <Route path='/home' element={<HomePage/>}></Route>
+                    <Route path={'/reviewlist/:bookId'} element={<ReviewListPage/>}/>
                     <Route path={"/search"} element={ <SearchBooksPage/>}></Route>
                     <Route path={"/checkout/:bookId"} element={<BookCheckOutPage/>}/>
                     <Route path={"/login"} element={<LoginWidget config={oktaConfig}/>}/>
                     <Route path={"/login/callback"} element={<LoginCallback/>}/>
+                    // need to secure the shelfpage route
+                    <Route path={"/shelf"} element={<ShelfPage/>}/>
+
                 </Routes>
+
+
             </div>
 
 
