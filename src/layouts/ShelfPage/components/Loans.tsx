@@ -58,19 +58,33 @@ export const Loans = ()=>{
 
     async function returnBook(bookId : number){
         const url = `http://localhost:8080/api/books/secure/return/?bookId=${bookId}`;
-        console.log(url);
         const requestOptions = {
             method:"PUT",
-            header:{
+            headers:{
                 Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
                 'Content-Type': "application/json"
             }
         };
-        console.log(requestOptions);
         const returnResponse = await fetch(url, requestOptions);
-        console.log(returnResponse);
         if(!returnResponse.ok){
             throw new Error("Something went wrong in returnBook")
+        }
+        setCheckout(!checkout);
+    }
+
+
+    async function renewLoan(bookId:number){
+        const url = `http://localhost:8080/api/books/secure/renew/loan/?bookId=${bookId}`;
+        const requestOptions = {
+            method:"PUT",
+            headers:{
+                Authorization:`Bearer ${authState?.accessToken?.accessToken}`,
+                'Content-Type':'application/json'
+            }
+        };
+        const returnResponse = await fetch(url, requestOptions);
+        if(!returnResponse.ok){
+            throw  new Error("Something went wrong in renewLoan");
         }
         setCheckout(!checkout);
     }
@@ -120,7 +134,7 @@ export const Loans = ()=>{
                                                         data-bs-target={`#modal${shelfCurrentLoans.book.id}`}>
                                                     Manage Loan
                                                 </button>
-                                                <Link to={'search'} className={"list-group-item list-group-item-action"}>
+                                                <Link to={'/search'} className={"list-group-item list-group-item-action"}>
                                                     Search More Books?
                                                 </Link>
                                             </div>
@@ -136,7 +150,8 @@ export const Loans = ()=>{
                                 </div>
                             </div>
                             <hr/>
-                            <LoansModal shelfCurrentLoan={shelfCurrentLoans} mobile={false} returnBook={returnBook}/>
+                            <LoansModal shelfCurrentLoan={shelfCurrentLoans} mobile={false}
+                                        returnBook={returnBook} renewLoan={renewLoan}/>
 
                         </div>
                     ))}
@@ -146,7 +161,7 @@ export const Loans = ()=>{
                     <h3 className={"mt-3"}>
                         Currently No Loans.
                     </h3>
-                    <Link className={"btn btn-primary "} to={`search`}>
+                    <Link className={"btn btn-primary "} to={`/search`}>
                         Search for a new book
                     </Link>
                 </>
@@ -195,7 +210,7 @@ export const Loans = ()=>{
                                                             data-bs-target={`#mobilemodal${shelfCurrentLoans.book.id}`}>
                                                         Manage Loan
                                                     </button>
-                                                    <Link to={'search'} className={"list-group-item list-group-item-action"}>
+                                                    <Link to={'/search'} className={"list-group-item list-group-item-action"}>
                                                         Search More Books?
                                                     </Link>
                                                 </div>
@@ -210,7 +225,8 @@ export const Loans = ()=>{
                                         </div>
                                     </div>
                                 <hr/>
-                                <LoansModal shelfCurrentLoan={shelfCurrentLoans} mobile={true} returnBook={returnBook}/>
+                                <LoansModal shelfCurrentLoan={shelfCurrentLoans} mobile={true}
+                                            returnBook={returnBook} renewLoan={renewLoan}/>
                             </div>
                         ))}
                     </>
@@ -219,7 +235,7 @@ export const Loans = ()=>{
                         <h3 className={"mt-3"}>
                             Currently No Loans.
                         </h3>
-                        <Link className={"btn btn-primary "} to={`search`}>
+                        <Link className={"btn btn-primary "} to={`/search`}>
                             Search for a new book
                         </Link>
                     </>
